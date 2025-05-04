@@ -49,7 +49,12 @@
 
     #result {
       margin-top: 20px;
-      font-size: 24px;
+      font-size: 20px;
+    }
+
+    #result img {
+      width: 100px;
+      height: 100px;
     }
   </style>
 </head>
@@ -64,14 +69,33 @@
   <script>
     async function getWeather() {
       const city = document.getElementById("city").value;
-      const apiKey = "129c1b52456d9431bc9a1e77033c2053";  // Replace with your OpenWeatherMap API key
+      const apiKey = "129c1b52456d9431bc9a1e77033c2053"; // Your API Key
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-      const res = await fetch(url);
-      const data = await res.json();
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
 
-      document.getElementById("result").innerHTML = 
-        `Temperature: ${data.main.temp}°C<br>Weather: ${data.weather[0].description}`;
+        if (data.cod !== 200) {
+          document.getElementById("result").innerHTML = "City not found!";
+          return;
+        }
+
+        const icon = data.weather[0].icon;
+        const description = data.weather[0].description;
+
+        document.getElementById("result").innerHTML = `
+          <h3>${data.name}, ${data.sys.country}</h3>
+          <img src="http://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}">
+          <p><strong>Temperature:</strong> ${data.main.temp}°C</p>
+          <p><strong>Weather:</strong> ${description}</p>
+          <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
+          <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
+        `;
+      } catch (error) {
+        document.getElementById("result").innerHTML = "Error fetching data.";
+        console.error(error);
+      }
     }
   </script>
 </body>
