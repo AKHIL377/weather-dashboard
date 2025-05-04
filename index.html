@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Real-Time Weather Dashboard</title>
-</head>
-<body>
-  <h2>Weather Dashboard</h2>
-  <input type="text" id="city" placeholder="Enter city">
-  <button onclick="getWeather()">Get Weather</button>
-  <div id="result"></div>
+<script>
+  async function getWeather() {
+    const city = document.getElementById("city").value;
+    const url = `/api/weather?city=${city}`;
 
-  <script>
-    async function getWeather() {
-      const city = document.getElementById("city").value;
-      const url = `/api/weather?city=${city}`;  // Using serverless function
+    const res = await fetch(url);
+    const data = await res.json();
 
-      const res = await fetch(url);
-      const data = await res.json();
-
-      document.getElementById("result").innerHTML = 
-      `Temperature: ${data.main.temp}°C<br>Weather: ${data.weather[0].description}`;
+    if (res.ok) {
+      document.getElementById("result").innerHTML =
+        `Temperature: ${data.main.temp}°C<br>Weather: ${data.weather[0].description}`;
+    } else {
+      document.getElementById("result").innerHTML =
+        `Error: ${data.error || "Unable to fetch weather"}`;
     }
-  </script>
-</body>
-</html>
+  }
+</script>
