@@ -1,17 +1,35 @@
-<script>
-  async function getWeather() {
-    const city = document.getElementById("city").value;
-    const url = `/api/weather?city=${city}`;
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-Time Weather Dashboard</title>
+</head>
+<body>
+  <h2>Weather Dashboard</h2>
+  <input type="text" id="city" placeholder="Enter city">
+  <button onclick="getWeather()">Get Weather</button>
+  <div id="result"></div>
 
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (res.ok) {
-      document.getElementById("result").innerHTML =
-        `Temperature: ${data.main.temp}°C<br>Weather: ${data.weather[0].description}`;
-    } else {
-      document.getElementById("result").innerHTML =
-        `Error: ${data.error || "Unable to fetch weather"}`;
+  <script>
+    async function getWeather() {
+      const city = document.getElementById("city").value;
+      const url = `/api/weather?city=${encodeURIComponent(city)}`;
+  
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+  
+        if (res.ok) {
+          document.getElementById("result").innerHTML =
+            `Temperature: ${data.main.temp}°C<br>Weather: ${data.weather[0].description}`;
+        } else {
+          document.getElementById("result").innerHTML = "Error: " + data.message;
+        }
+      } catch (error) {
+        document.getElementById("result").innerHTML = "Error fetching data.";
+        console.error("Fetch error:", error);
+      }
     }
-  }
-</script>
+  </script>
+  
+</body>
+</html>
