@@ -12,24 +12,15 @@
   <script>
     async function getWeather() {
       const city = document.getElementById("city").value;
-      const url = `/api/weather?city=${encodeURIComponent(city)}`;
-  
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-  
-        if (res.ok) {
-          document.getElementById("result").innerHTML =
-            `Temperature: ${data.main.temp}°C<br>Weather: ${data.weather[0].description}`;
-        } else {
-          document.getElementById("result").innerHTML = "Error: " + data.message;
-        }
-      } catch (error) {
-        document.getElementById("result").innerHTML = "Error fetching data.";
-        console.error("Fetch error:", error);
-      }
+      const apiKey = "129c1b52456d9431bc9a1e77033c2053";  // Replace with your OpenWeatherMap API key
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      document.getElementById("result").innerHTML = 
+        `Temperature: ${data.main.temp}°C<br>Weather: ${data.weather[0].description}`;
     }
   </script>
-  
 </body>
 </html>
