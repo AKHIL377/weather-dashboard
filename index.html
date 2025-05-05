@@ -68,6 +68,10 @@
 
   <script>
     async function getWeather() {
+      window.onload = () => {
+        document.getElementById("city").value = "Ballari";
+        getWeather();
+      };
       const city = document.getElementById("city").value;
       const url = `/api/weather?city=${city}`; // Call the secure serverless function
 
