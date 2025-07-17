@@ -9,7 +9,7 @@ A responsive and real-time weather dashboard that displays current weather condi
 - ⛅ Weather icons based on conditions
 - 📱 Mobile responsive UI
 - 🔄 Manual or auto refresh of data
-- 🌐 Hosted on: [Add your deployment link here]
+- 🌐 Hosted on: [https://weather-dashboard-eight-opal.vercel.app/]
 
 ## 🛠️ Technologies Used
 
